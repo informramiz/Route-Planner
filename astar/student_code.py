@@ -1,14 +1,9 @@
-
-"""
-Author: Ramiz Raja
-Created on: 27/01/2020
-"""
+import math
 import math
 from queue import PriorityQueue
-from astar.map import Map
+from helpers import Map
 
-
-def shortest_path(M: Map,start,goal):
+def shortest_path(M: Map, start, goal):
     if start == goal:
         return [start]
 
@@ -50,6 +45,7 @@ def add_frontiers(M: Map, node, g_distance, h_distance, is_frontier, is_explored
         f = g_distance_of_neighbor + h_distance[neighbor]
 
         if not is_frontier[neighbor]:
+            is_frontier[neighbor] = True
             g_distance[neighbor] = g_distance_of_neighbor
             # neighbor has not be visited before
             priority_queue.put_nowait((f, neighbor))
@@ -60,7 +56,7 @@ def add_frontiers(M: Map, node, g_distance, h_distance, is_frontier, is_explored
             if g_distance_of_neighbor < g_distance[neighbor]:
                 g_distance[neighbor] = g_distance_of_neighbor
                 parent[neighbor] = node
-                priority_queue.put_nowait(f, neighbor)
+                priority_queue.put_nowait((f, neighbor))
 
 
 def build_path(parent, start, goal):
